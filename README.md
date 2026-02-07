@@ -1,59 +1,59 @@
-# BskyMutuals
+# 🦋 BskyMutuals
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.3.
+O **BskyMutuals** é uma ferramenta simples e eficiente para gerenciar suas conexões no Bluesky. Com ele, você descobre rapidamente quem você segue mas não te segue de volta (os famosos "unfollowers" ou "non-mutuals").
 
-## Development server
+---
 
-To start a local development server, run:
+## 🚀 Funcionalidades
+
+- 🔍 **Busca em tempo real:** Lista quem não retribuiu o seu follow.
+- 📊 **Interface Limpa:** Visualização simples e direta.
+- 🔐 **Segurança:** Utiliza Senha de Aplicativo para proteger sua conta principal(Não é sua senha de acesso ao BlueSky).
+
+## 🛠️ Tecnologias Utilizadas
+
+- [Node.js](https://nodejs.org/)
+- [Tailwindcss](https://tailwindcss.com/)
+- [Angular](https://angular.dev/)
+
+## 📦 Como Instalar e Rodar
+
+Siga os passos abaixo para configurar o projeto localmente.
+
+### 1. Clonar o repositório
+
+Abra o seu terminal e digite:
+
+```bash
+git clone [https://github.com/isabellamariano/BskyMutuals.git](https://github.com/isabellamariano/BskyMutuals.git)
+```
+
+Entrar na pasta do projeto
+
+```bash
+cd BskyMutuals
+```
+
+Instalar as dependências
+
+```bash
+npm install
+```
+
+Iniciar o projeto
 
 ```bash
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+**Atenção:** Nunca use sua senha principal. Crie uma "Senha de Aplicativo" nas configurações da sua conta no Bluesky, no submenu de "Privacidade e Segurança".
 
-## Code scaffolding
+## 🤝 Contribuindo
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+Contribuições são sempre bem-vindas! Siga os passos abaixo:
 
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+1. Faça um **Fork** do projeto.
+2. Crie uma **Branch** para sua feature: `git checkout -b feature/NovaFeature`.
+3. Dê um **Commit** nas suas alterações: `git commit -m 'Adicionando nova funcionalidade'`.
+4. Dê um **Push** na sua Branch: `git push origin feature/NovaFeature`.
+5. Abra um **Pull Request**.
