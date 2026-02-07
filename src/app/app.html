@@ -1,0 +1,207 @@
+<div class="flex flex-col min-h-dvh bg-[var(--bsky-dark-bg)]">
+  <header
+    class="border-b border-gray-800 bg-[var(--bsky-dark-bg)]/80 backdrop-blur-md sticky top-0 z-50"
+  >
+    <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-2">
+        <span class="material-symbols-outlined text-primary text-3xl font-bold">flutter_dash</span>
+        <h1 class="font-display font-bold text-xl tracking-tight text-white">BSky Follow</h1>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-1 max-w-6xl mx-auto px-4 py-8 w-full">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <div class="lg:col-span-5 space-y-6">
+        <form [formGroup]="bskyForm" (ngSubmit)="analyze()" class="space-y-4">
+          <section class="bg-[var(--bsky-card-bg)] p-6 rounded-xl border border-gray-800 shadow-xl">
+            <h2 class="font-display font-semibold mb-4 text-lg text-slate-100">Parâmetro Acesso</h2>
+            <div class="space-y-4">
+              <div class="relative">
+                <span
+                  class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-sm"
+                  >key</span
+                >
+                <input
+                  formControlName="token"
+                  class="w-full pl-10 pr-4 py-3 rounded-lg border-gray-700 bg-gray-900/50 text-slate-200 focus:ring-2 focus:ring-primary outline-none transition-all placeholder-slate-600"
+                  placeholder="Senha Aplicativo"
+                  type="password"
+                />
+                @if (token?.invalid && (token?.dirty || token?.touched)) {
+                  <div class="text-red-500 text-xs mt-1 ml-2">
+                    @if (token?.hasError('required')) {
+                      <span>Token é obrigatório.</span>
+                    }
+                  </div>
+                }
+              </div>
+
+              <div class="relative">
+                <span
+                  class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-sm"
+                  >alternate_email</span
+                >
+                <input
+                  formControlName="myHandle"
+                  class="w-full pl-10 pr-4 py-3 rounded-lg border-gray-700 bg-gray-900/50 text-slate-200 focus:ring-2 focus:ring-primary outline-none transition-all placeholder-slate-600"
+                  placeholder="Handle"
+                  type="text"
+                />
+                @if (myHandle?.invalid && (myHandle?.dirty || myHandle?.touched)) {
+                  <div class="text-red-500 text-xs mt-1 ml-2">
+                    @if (myHandle?.hasError('required')) {
+                      <span>Handle é obrigatório.</span>
+                    }
+                  </div>
+                }
+              </div>
+
+              <button
+                type="submit"
+                [disabled]="bskyForm.invalid || loading()"
+                class="w-full bg-primary hover:bg-blue-600 text-white font-semibold py-3 rounded-lg shadow-lg transition-all active:scale-95 flex items-center justify-center gap-2"
+              >
+                <span class="material-symbols-outlined text-sm">search</span>
+                <span>{{ loading() ? 'Analisando...' : 'Analisar Mutuals' }}</span>
+              </button>
+            </div>
+          </section>
+        </form>
+
+        @if (dadosHandle()) {
+          <section class="bg-gray-900/40 p-6 rounded-xl border border-gray-800 shadow-md">
+            <div class="flex items-center space-x-4">
+              <img
+                class="w-16 h-16 rounded-full border-2 border-primary object-cover"
+                [src]="dadosHandle()?.avatar"
+                alt="Profile"
+              />
+              <div>
+                <h3 class="font-display font-bold text-xl leading-tight text-white">
+                  {{ dadosHandle()?.displayName }}
+                </h3>
+                <p class="text-slate-400 text-sm">{{ dadosHandle()?.handle }}</p>
+              </div>
+            </div>
+            <div class="mt-6 grid grid-cols-2 gap-3 text-center">
+              <div class="bg-gray-800/50 rounded-lg p-2 border border-gray-700/50">
+                <p class="text-[10px] uppercase font-bold text-slate-500">Followers</p>
+                <p class="text-lg font-bold text-white">
+                  {{ dadosHandle()?.followersCount }}
+                </p>
+              </div>
+              <div class="bg-gray-800/50 rounded-lg p-2 border border-gray-700/50">
+                <p class="text-[10px] uppercase font-bold text-slate-500">Following</p>
+                <p class="text-lg font-bold text-white">
+                  {{ dadosHandle()?.followsCount }}
+                </p>
+              </div>
+            </div>
+          </section>
+        }
+      </div>
+
+      <div class="lg:col-span-7 flex flex-col">
+        <div class="flex items-center justify-between mb-6">
+          <div class="flex flex-col">
+            <h2 class="font-display font-bold text-2xl text-white">Não segue de volta</h2>
+            <p class="text-slate-400 text-sm">Contas que não te seguem de volta.</p>
+          </div>
+          <span
+            class="bg-primary/10 text-primary text-xs font-bold px-3 py-1 rounded-full border border-primary/20"
+          >
+            {{ followsList().length }} Encontrados
+          </span>
+        </div>
+
+        <div class="space-y-3 max-h-[calc(100vh-350px)] overflow-y-auto pr-2 custom-scrollbar">
+          @for (person of followsList(); track person.did) {
+            <div
+              class="group flex items-center justify-between bg-[var(--bsky-card-bg)] p-4 rounded-xl border border-gray-800 hover:border-gray-600 transition-all"
+            >
+              <div class="flex items-center space-x-4">
+                <img
+                  [src]="
+                    person.avatar ||
+                    'https://abs.twimg.com/sticky/default_profile_images/default_profile_normal.png'
+                  "
+                  class="w-12 h-12 rounded-lg object-cover"
+                />
+                <div>
+                  <p class="font-display font-semibold text-slate-200">
+                    {{ person.displayName || person.handle }}
+                  </p>
+                  <p class="text-xs text-slate-500">@{{ person.handle }}</p>
+                </div>
+              </div>
+              <a
+                [href]="'https://bsky.app/profile/' + person.handle"
+                target="_blank"
+                class="opacity-0 group-hover:opacity-100 bg-red-500/10 hover:bg-red-500 text-red-500 hover:text-white px-4 py-1.5 rounded-lg text-sm font-medium transition-all"
+              >
+                Unfollow
+              </a>
+            </div>
+          } @empty {
+            @if (!loading()) {
+              <div
+                class="text-center py-10 bg-gray-900/20 rounded-xl border border-dashed border-gray-800 text-slate-500 italic"
+              >
+                Tudo limpo ou aguardando análise.
+              </div>
+            }
+          }
+        </div>
+
+        @if (cursor() && !loading()) {
+          <div class="mt-6 flex justify-center">
+            <button
+              (click)="loadMoreFollows()"
+              class="text-slate-500 hover:text-primary text-sm flex items-center gap-2"
+            >
+              <span>Carregar mais</span>
+              <span class="material-symbols-outlined text-sm">expand_more</span>
+            </button>
+          </div>
+        }
+      </div>
+    </div>
+  </main>
+
+  <footer class="mt-auto py-12 border-t border-gray-800 bg-gray-950">
+    <div class="max-w-6xl mx-auto px-4 text-center">
+      <div class="flex flex-col items-center space-y-6">
+        <div class="flex gap-8 text-slate-500">
+          <a
+            class="group flex items-center space-x-2 text-slate-500 hover:text-primary transition-colors"
+            target="_blank"
+            href="https://github.com/isabellamariano"
+          >
+            <svg
+              class="w-5 h-5 fill-current"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"
+              ></path>
+            </svg>
+            <span class="text-sm font-medium">GitHub</span>
+          </a>
+          <a
+            class="group flex items-center space-x-2 text-slate-500 hover:text-primary transition-colors"
+            target="_blank"
+            href="https://bsky.app/profile/izabeula.bsky.social"
+          >
+            <span class="material-symbols-outlined text-[20px]">flutter_dash</span>
+            <span class="text-sm font-medium">Bluesky</span>
+          </a>
+        </div>
+        <p class="text-slate-600 text-xs">
+          © {{ ano }} - Ferramenta BSky Follow. Marca oficial respeitada.
+        </p>
+      </div>
+    </div>
+  </footer>
+</div>

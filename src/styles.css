@@ -1,0 +1,79 @@
+/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Outfit:wght@500;600;700&amp;display=swap');
+@import 'tailwindcss';
+
+@theme {
+  /* Cores Personalizadas */
+
+  --color-primary: #0085ff;
+  --color-background-dark: #111827;
+  --color-card-dark: #111827;
+
+  --color-butterfly-blue: #0085ff;
+  --color-bsky-dark-bg: #050a10;
+  --color-bsky-card-bg: #111827;
+  --color-bsky-border: #1f2937;
+  --color-bsky-hover: #1e293b;
+  --color-slate-custom: #0f172a;
+
+  /* Tipografia e Raio */
+  --font-display: 'Outfit', 'sans-serif';
+  --font-sans: 'Inter', 'sans-serif';
+  --radius-default: 16px;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-full: 9999px;
+}
+
+:host,
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  margin: 0;
+}
+
+@layer base {
+  body {
+    @apply bg-bsky-dark-bg text-slate-100;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #334155;
+    border-radius: 10px;
+  }
+}
+
+@layer utilities {
+  .material-symbols-outlined {
+    /* Define os valores padrão usando variáveis */
+    --icon-fill: 0;
+    --icon-wght: 400;
+    --icon-grad: 0;
+    --icon-opsz: 24;
+
+    font-variation-settings:
+      'FILL' var(--icon-fill),
+      'wght' var(--icon-wght),
+      'GRAD' var(--icon-grad),
+      'opsz' var(--icon-opsz);
+
+    display: inline-block;
+    line-height: 1;
+  }
+
+  .fill-icon {
+    --icon-fill: 1;
+  }
+
+  .icon-bold {
+    --icon-wght: 700;
+  }
+}
