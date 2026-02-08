@@ -57,3 +57,5 @@ Contribuições são sempre bem-vindas! Siga os passos abaixo:
 3. Dê um **Commit** nas suas alterações: `git commit -m 'Adicionando nova funcionalidade'`.
 4. Dê um **Push** na sua Branch: `git push origin feature/NovaFeature`.
 5. Abra um **Pull Request**.
+
+Desenvolvido com 🍫🧃 por **Isabella Mariano**
